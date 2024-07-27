@@ -1,0 +1,36 @@
+.dropdown {
+    position: relative;
+    width: 200px;
+  }
+  
+  .dropdownHeader {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .arrow.open {
+    transform: rotate(180deg);
+  }
+  
+  .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .dropdownListItem {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
