@@ -24,6 +24,7 @@ import axios from 'axios'
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/card";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 
 type Project = {
@@ -39,6 +40,8 @@ type Project = {
 
 const Page = () => {
 
+    const router = useRouter()
+
     const [link, setLink] = useState('')
     const [UpdateLink, setUpdateLink] = useState('')
     const [projectNameError, setprojectNameError] = useState(false)
@@ -47,6 +50,7 @@ const Page = () => {
     const [techStack, setTechStack] = useState('')
     const [updateTechStack, setUpdateTechStack] = useState('')
     const [projects, setProjects] = useState<Project[]>([])
+    const [avatarName, setAvatarName] = useState('')
 
     const [data, setData] = useState({
         projectName: '',
@@ -134,7 +138,7 @@ const Page = () => {
                 console.log(response)
 
                 if (response?.data?.data?.logout) {
-
+                    router.push('/login')
                 }
 
                 if (response?.data?.success) {
@@ -144,6 +148,8 @@ const Page = () => {
                             creatorId: response?.data?.data?._id
                         }
                     })
+
+                    setAvatarName(response?.data?.data?.name)
                 }
 
                 console.log(response?.data?.data?._id)
@@ -405,7 +411,7 @@ const Page = () => {
         <main className="relative bg-black-100 flex flex-col overflow-x-hidden mx-auto sm:px-10 px-5 h-screen">
             <div className='flex justify-between h-[100vh]' id='nav-container'>
                 <div className='mt-8'>
-                    <Avatar height={45} width={45} name='Lakshya Jain' userId={''} />
+                    <Avatar height={45} width={45} name={avatarName} userId={''} />
                 </div>
 
                 <Drawer>
@@ -504,13 +510,13 @@ const Page = () => {
                             </div>
                         </div>
                         <div className='mt-[15rem]'>
-                            <p className='text-purple font-extrabold italic text-sm font-poppins' id='scroll-animation'>Scroll Up To See Projects</p>
+                            <p className='text-purple font-extrabold italic text-sm font-poppins' id='scroll-animation'>{projects.length == 0 ? 'No Project Found' : 'Scroll Up to See Projects'}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className='flex justify-center w-full mt-16 -p-12'>
+            <div className={`${projects.length == 0 ? 'hidden' : 'flex'} justify-center w-full mt-16 -p-12`}>
                 <p className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 max-w-96">
                     Project Tracker Managemento
                 </p>

@@ -22,6 +22,7 @@ import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/card";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
+import { TextGenerateEffect } from '@/components/ui/textgenerateeffect'
 
 type Project = {
     projectName: string;
@@ -269,10 +270,16 @@ const page = ({ params }: any) => {
                         />
                     </div>
 
-                    <div className='w-full flex justify-center'>
+                    <div className='w-full flex flex-col justify-center items-center'>
                         <p id='tagline-para' className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 max-w-96">
                             Project Tracker Managemento
                         </p>
+                        <div className={`${projects.length == 0 ? 'flex' : 'hidden'}`}>
+                            <TextGenerateEffect
+                                words="No Projects Found"
+                                className="text-center text-[40px] md:text-5xl lg:text-6xl lg:text-[3.30rem] font-poppins "
+                            />
+                        </div>
                     </div>
 
                 </div>
