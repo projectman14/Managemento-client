@@ -125,9 +125,11 @@ const page = () => {
                     } catch (err: any) {
                         console.log(err)
                         toast.error(err?.response?.data?.message)
-                        setPassError(true)
+                        if (err?.response?.data?.message === 'Incorrect Password') {
+                            setPassError(true)
+                        }
                     }
-                }else{
+                } else {
                     toast.error(response?.data?.message)
                 }
             } catch (err: any) {
@@ -182,6 +184,11 @@ const page = () => {
                                 >
                                     Login &rarr;
                                 </button>
+
+                                <div className='flex justify-center mt-5'>
+                                    <p className='text-xs text-white text-center font-poppins'>New to Managemento?</p>
+                                    <p className='text-xs text-white text-center font-poppins font-semibold cursor-pointer' onClick={() => router.push('/register')}> Sign Up</p>
+                                </div>
 
                                 <div className="bg-gradient-to-r from-transparent via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 

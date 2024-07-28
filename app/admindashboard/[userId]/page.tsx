@@ -203,23 +203,27 @@ const page = ({ params }: any) => {
 
                 const fetchProjects = async () => {
                     try {
-                        const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/userProjects`
-
+                        const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/getUserDataWithId`
+        
                         const response = await axios({
-                            method: 'get',
+                            method: 'post',
                             url: URL,
+                            data: { id: params.userId },
                             withCredentials: true
                         })
-
+        
                         console.log(response)
-
-
+        
+                        if (response?.data?.logout) {
+        
+                        }
+        
                         if (response?.data?.success) {
                             setProjects(response?.data?.data);
                             console.log(response?.data?.data);
                         }
-
-
+        
+        
                     } catch (err) {
                         console.log(err)
                     }
@@ -247,23 +251,27 @@ const page = ({ params }: any) => {
             if (response?.data?.success) {
                 const fetchProjects = async () => {
                     try {
-                        const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/userProjects`
-
+                        const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/getUserDataWithId`
+        
                         const response = await axios({
-                            method: 'get',
+                            method: 'post',
                             url: URL,
+                            data: { id: params.userId },
                             withCredentials: true
                         })
-
+        
                         console.log(response)
-
-
+        
+                        if (response?.data?.logout) {
+        
+                        }
+        
                         if (response?.data?.success) {
                             setProjects(response?.data?.data);
                             console.log(response?.data?.data);
                         }
-
-
+        
+        
                     } catch (err) {
                         console.log(err)
                     }

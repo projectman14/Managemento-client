@@ -35,6 +35,7 @@ const page = () => {
   const [typeError, setTypeError] = useState(false)
   const [endAnimation, setEndAnimation] = useState(false)
   const [captchaVerification, setCaptchaVerification] = useState(false)
+  const [validPasswordFormate, setValidPasswordFormate] = useState(false)
 
   useGSAP(() => {
     gsap.to('#tagline', {
@@ -116,6 +117,11 @@ const page = () => {
     }
   }
 
+  const validatePassword = (pwd: string) => {
+    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+    return regex.test(pwd);
+  };
+
   const handleOnChange = (e: any) => {
     const { name, value } = e.target
 
@@ -125,12 +131,26 @@ const page = () => {
         [name]: value
       }
     })
+
+
   }
+
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let errorCheck = false;
+
+
+    if (data.password !== '') {
+      if (!validatePassword(data.password)) {
+        setValidPasswordFormate(true)
+        errorCheck = true
+      } else {
+        setValidPasswordFormate(false)
+      }
+    }
 
     if (data.name === '') {
       errorCheck = true
@@ -142,7 +162,7 @@ const page = () => {
       setTypeError(true)
     }
 
-    if (!nameError && !typeError && !emailError && !passError && !errorCheck && captchaVerification) {
+    if (!nameError && !typeError && !emailError && !passError && !errorCheck && captchaVerification && !validPasswordFormate) {
       const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/register`
 
       const payLoad = {
@@ -227,6 +247,7 @@ const page = () => {
                 <div className="mb-4">
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" name='password' placeholder="••••••••" type="password" onChange={handleOnChange} className='bg-black-100 text-white font-poppins' value={data.password} data={data.password} error={passError} />
+                  {validPasswordFormate && <p className='text-red-600 text-xs italic text-center max-w-[25rem] '>Password should contain minimum 8 characters at least one uppercase letter, one lowercase letter, one number, and one special character</p>}
                 </div>
                 <div className="">
                   <Label htmlFor="confrimpassword">Confirm Password</Label>
@@ -254,6 +275,10 @@ const page = () => {
                 >
                   Sign up &rarr;
                 </button>
+                <div className='flex justify-center mt-5'>
+                  <p className='text-xs text-white text-center font-poppins'>Already Have Account?</p>
+                  <p className='text-xs text-white text-center font-poppins font-semibold cursor-pointer' onClick={() => router.push('/login')}> Login</p>
+                </div>
 
                 <div className="bg-gradient-to-r from-transparent via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 

@@ -100,6 +100,7 @@ const page = ({ params }: any) => {
             if (response?.data?.success) {
                 console.log(response?.data?.tokendata)
                 console.log(response);
+                router.push('/dashboard');
             }
         } catch (err: any) {
             console.log(err?.response?.data?.message)

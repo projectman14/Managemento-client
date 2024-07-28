@@ -26,6 +26,7 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/card";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import Logout from '@/components/Logout'
+import toast, { Toaster } from 'react-hot-toast';
 
 
 type Project = {
@@ -257,6 +258,13 @@ const Page = () => {
 
         console.log(data)
 
+        const newTechArray = stringToArray(techStack);
+
+        const newData = {
+            ...data,
+            techStack: newTechArray
+        };
+
 
         if (data.projectName === '') {
             setprojectNameError(true)
@@ -280,7 +288,7 @@ const Page = () => {
             try {
                 const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/project-add`
 
-                const response = await axios.post(URL, data)
+                const response = await axios.post(URL, newData)
 
                 if (response?.data?.success) {
                     console.log(response?.data?.data)
@@ -292,9 +300,41 @@ const Page = () => {
                         techStack: [],
                         creatorId: ''
                     })
+                    toast.success(response?.data?.message)
+                    const fetchProjects = async () => {
+                        try {
+                            const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/userProjects`
+
+                            const response = await axios({
+                                method: 'get',
+                                url: URL,
+                                withCredentials: true
+                            })
+
+                            console.log(response)
+
+                            if (response?.data?.logout) {
+
+                            }
+
+                            if (response?.data?.success) {
+                                setProjects(response?.data?.data);
+                                console.log(response?.data?.data);
+                            }
+
+
+                        } catch (err) {
+                            console.log(err)
+                        }
+                    }
+
+                    fetchProjects()
+                    router.push('/dashboard')
+
                 }
-            } catch (err) {
+            } catch (err: any) {
                 console.log(err)
+                toast.error(err?.response?.data?.message)
             }
         }
     }
@@ -328,6 +368,7 @@ const Page = () => {
 
             if (response?.data?.success) {
                 console.log(response?.data?.data)
+                toast.success(response?.data?.message)
                 setUpdateData({
                     projectName: '',
                     githubRepoLink: '',
@@ -381,6 +422,7 @@ const Page = () => {
             })
 
             if (response?.data?.success) {
+                toast.success(response?.data?.message)
                 const fetchProjects = async () => {
                     try {
                         const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/userProjects`
@@ -400,8 +442,9 @@ const Page = () => {
                         }
 
 
-                    } catch (err) {
-                        console.log(err)
+                    } catch (err: any) {
+                        console.log(err);
+                        toast.error(err?.response?.data?.message)
                     }
                 }
 
@@ -409,8 +452,9 @@ const Page = () => {
             }
 
 
-        } catch (error) {
+        } catch (error:any) {
             console.log(error)
+            toast.error(error?.response?.data?.message)
         }
     }
 
@@ -535,8 +579,8 @@ const Page = () => {
 
             <div className={`flex flex-wrap h-[100vh] mt-12 ${projects.length > 2 ? 'justify-start' : projects.length == 1 ? 'justify-center' : 'justify-around'}`}>
                 {projects.map((project, index) => (
-                    <CardContainer key={index} className="inter-var">
-                        <CardBody className=" relative group/card hover:shadow-2xl hover:shadow-emerald-500/[0.1] bg-black-100 border-purple w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+                    <CardContainer key={index} className="inter-var ">
+                        <CardBody className=" relative group/card hover:shadow-2xl h-auto hover:shadow-emerald-500/[0.1] bg-black-100 border-purple w-auto sm:w-[30rem] rounded-xl p-6 border">
                             <CardItem
                                 translateZ="50"
                                 className="text-xl font-bold text-white text-center flex justify-center w-full"
@@ -678,6 +722,7 @@ const Page = () => {
             <div>
                 {logout && <Logout setLogoutVisible={() => setLogout(false)} />}
             </div>
+            <Toaster />
         </main>
     )
 }

@@ -49,9 +49,11 @@ const Hero = () => {
                 console.log(response)
 
                 if (response?.data?.success) {
-                    if (response?.data?.data?.userType === 'Student') {
-                        router.push('/dashboard')
+                    if (response?.data?.data?.userType === 'Admin') {
+                        
                     }
+
+                    router.push('/dashboard')
                 }
 
                 console.log(response?.data?.data?._id)
