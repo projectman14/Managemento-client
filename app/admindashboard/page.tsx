@@ -10,11 +10,14 @@ import { useGSAP } from '@gsap/react'
 import axios from 'axios'
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
+import Logout from '@/components/Logout'
 
 const Page = () => {
 
     const [userData, setUserData] = useState([])
     const router = useRouter()
+    const [isAdmin , setIsAdmin] = useState(true)
+    const [logout, setLogout] = useState(false)
 
     useGSAP(() => {
         gsap.from('#tagline', {
@@ -62,6 +65,39 @@ const Page = () => {
             }
         }
         fetchUSerDetail()
+
+        const fetchActiveUserDetail = async () => {
+            try {
+                const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/login-verificaton`
+
+                const response = await axios({
+                    method: 'post',
+                    url: URL,
+                    withCredentials: true
+                })
+
+                console.log(response)
+
+                if (response?.data?.data?.logout) {
+                    router.push('/login')
+                }
+
+                if (response?.data?.success) {
+                    if(response?.data?.data?.userType === 'Student'){
+                        setIsAdmin(false)
+                        router.push('/dashboard')
+                    }
+                }
+
+                console.log(response?.data?.data?._id)
+
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        fetchActiveUserDetail()
     }, [])
 
 
@@ -69,10 +105,10 @@ const Page = () => {
     return (
         <main className="relative bg-black-100 flex flex-col overflow-x-hidden mx-auto sm:px-10 px-5 h-screen">
             <div className='flex justify-between ' id='nav-container'>
-                <div className='mt-8'>
+                <div className='mt-8 z-50 cursor-pointer' onClick={() => setLogout(true)}>
                     <Avatar height={45} width={45} name='Lakshya Jain' userId={''} />
                 </div>
-                <Button className='flex justify-end mt-8'>
+                <Button className='flex justify-end mt-8 cursor-pointer' onClick={() => router.push('/dashboard')}>
                     <span className='font-poppins inline-flex h-[2.5rem] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>User Dashboard</span>
                 </Button>
             </div>
@@ -146,6 +182,10 @@ const Page = () => {
                         </p>
                     </div>
                 ))}
+            </div>
+
+            <div>
+                {logout && <Logout setLogoutVisible={() => setLogout(false)} />}
             </div>
         </main>
     )

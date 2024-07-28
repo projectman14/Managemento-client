@@ -9,6 +9,7 @@ import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import toast, { Toaster } from 'react-hot-toast';
 
 const page = () => {
 
@@ -71,6 +72,8 @@ const page = () => {
                 [name]: value
             }
         })
+
+        setPassError(false)
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -91,6 +94,7 @@ const page = () => {
                 console.log(response?.data?.message);
 
                 if (response?.data?.success) {
+                    // toast.success(response?.data?.message)
                     try {
                         const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/password`
 
@@ -108,20 +112,27 @@ const page = () => {
 
                         if (newResponse?.data?.success) {
                             console.log(newResponse?.data?.message)
+                            toast.success(response?.data?.message)
                             setData({
                                 email: '',
                                 password: '',
                             })
-                            setTimeout(()=>router.push('/dashboard') , 1000)
-                        }else{
+                            setTimeout(() => router.push('/dashboard'), 1000)
+                        } else {
                             setPassError(true)
+                            toast.error(response?.data?.message)
                         }
                     } catch (err: any) {
                         console.log(err)
+                        toast.error(err?.response?.data?.message)
+                        setPassError(true)
                     }
+                }else{
+                    toast.error(response?.data?.message)
                 }
             } catch (err: any) {
                 console.log(err?.response?.data?.message)
+                toast.error(err?.response?.data?.message)
             }
         }
 
@@ -180,6 +191,7 @@ const page = () => {
 
                 </div >
             </div>
+            <Toaster />
         </main>
 
     )

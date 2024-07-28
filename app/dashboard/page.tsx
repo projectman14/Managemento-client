@@ -25,6 +25,7 @@ import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/card";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
+import Logout from '@/components/Logout'
 
 
 type Project = {
@@ -51,6 +52,8 @@ const Page = () => {
     const [updateTechStack, setUpdateTechStack] = useState('')
     const [projects, setProjects] = useState<Project[]>([])
     const [avatarName, setAvatarName] = useState('')
+    const [isAdmin, setIsAdmin] = useState(false)
+    const [logout, setLogout] = useState(false)
 
     const [data, setData] = useState({
         projectName: '',
@@ -95,7 +98,7 @@ const Page = () => {
 
         gsap.from('#nav-container', {
             opacity: 0,
-            duration: 5
+            duration: 2
         })
 
     }, [])
@@ -150,6 +153,10 @@ const Page = () => {
                     })
 
                     setAvatarName(response?.data?.data?.name)
+
+                    if (response?.data?.data?.userType === 'Admin') {
+                        setIsAdmin(true)
+                    }
                 }
 
                 console.log(response?.data?.data?._id)
@@ -410,14 +417,18 @@ const Page = () => {
     return (
         <main className="relative bg-black-100 flex flex-col overflow-x-hidden mx-auto sm:px-10 px-5 h-screen">
             <div className='flex justify-between h-[100vh]' id='nav-container'>
-                <div className='mt-8'>
+                <div className='mt-8 cursor-pointer z-50' onClick={() => setLogout(true)}>
                     <Avatar height={45} width={45} name={avatarName} userId={''} />
                 </div>
+
+                <Button className={`justify-end mt-8 mr-10 cursor-pointer ${isAdmin ? 'flex' : 'hidden'}`} onClick={() => router.push('/admindashboard')}>
+                    <span className='font-poppins inline-flex h-[2.5rem] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Admin Dashboard</span>
+                </Button>
 
                 <Drawer>
                     <DrawerTrigger>
                         <Button className='flex justify-end mt-8'>
-                            <span className='font-poppins inline-flex h-[2.5rem] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Add Project</span>
+                            <span className='font-poppins inline-flex h-[2.5rem] w-[10rem] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Add Project</span>
                         </Button>
                     </DrawerTrigger>
                     <DrawerContent>
@@ -663,6 +674,9 @@ const Page = () => {
                         </CardBody>
                     </CardContainer>
                 ))}
+            </div>
+            <div>
+                {logout && <Logout setLogoutVisible={() => setLogout(false)} />}
             </div>
         </main>
     )

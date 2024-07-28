@@ -23,6 +23,7 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/card";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import { TextGenerateEffect } from '@/components/ui/textgenerateeffect'
+import Logout from '@/components/Logout'
 
 type Project = {
     projectName: string;
@@ -43,6 +44,8 @@ const page = ({ params }: any) => {
     const [UpdateLink, setUpdateLink] = useState('')
     const [updateTechStack, setUpdateTechStack] = useState('')
     const [projects, setProjects] = useState<Project[]>([])
+    const [isAdmin, setIsAdmin] = useState(true)
+    const [logout, setLogout] = useState(false)
 
     const [updateData, setUpdateData] = useState({
         projectName: '',
@@ -66,7 +69,6 @@ const page = ({ params }: any) => {
     }, [UpdateLink])
 
     useEffect(() => {
-
         const fetchProjects = async () => {
             try {
                 const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/getUserDataWithId`
@@ -94,6 +96,39 @@ const page = ({ params }: any) => {
                 console.log(err)
             }
         }
+
+        const fetchActiveUserDetail = async () => {
+            try {
+                const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/login-verificaton`
+
+                const response = await axios({
+                    method: 'post',
+                    url: URL,
+                    withCredentials: true
+                })
+
+                console.log(response)
+
+                if (response?.data?.data?.logout) {
+                    router.push('/login')
+                }
+
+                if (response?.data?.success) {
+                    if (response?.data?.data?.userType === 'Student') {
+                        setIsAdmin(false)
+                        router.push('/dashboard')
+                    }
+                }
+
+                console.log(response?.data?.data?._id)
+
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        fetchActiveUserDetail()
         fetchProjects()
 
 
@@ -233,10 +268,8 @@ const page = ({ params }: any) => {
                         console.log(err)
                     }
                 }
-
                 fetchProjects()
             }
-
 
         } catch (error) {
             console.log(error)
@@ -246,7 +279,7 @@ const page = ({ params }: any) => {
     return (
         <main className="relative bg-black-100 flex flex-col overflow-x-hidden mx-auto sm:px-10 px-5 h-screen">
             <div className='flex justify-between' id='nav-container'>
-                <div className='mt-8'>
+                <div className='mt-8 z-50 cursor-pointer' onClick={() => setLogout(true)}>
                     <Avatar height={45} width={45} name='Lakshya Jain' userId={''} />
                 </div>
 
@@ -426,6 +459,10 @@ const page = ({ params }: any) => {
                         </CardBody>
                     </CardContainer>
                 ))}
+            </div>
+
+            <div>
+                {logout && <Logout setLogoutVisible={() => setLogout(false)} />}
             </div>
         </main>
     )

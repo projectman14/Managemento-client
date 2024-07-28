@@ -7,6 +7,7 @@ import { Button } from './ui/Button'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 const Hero = () => {
 
@@ -34,6 +35,36 @@ const Hero = () => {
         }
     }, [detectClick])
 
+    useEffect(() => {
+        const fetchActiveUserDetail = async () => {
+            try {
+                const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/login-verificaton`
+
+                const response = await axios({
+                    method: 'post',
+                    url: URL,
+                    withCredentials: true
+                })
+
+                console.log(response)
+
+                if (response?.data?.success) {
+                    if (response?.data?.data?.userType === 'Student') {
+                        router.push('/dashboard')
+                    }
+                }
+
+                console.log(response?.data?.data?._id)
+
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        fetchActiveUserDetail()
+    }, [])
+
     useGSAP(() => {
         gsap.from('#btn-auth', {
             opacity: 0,
@@ -53,9 +84,9 @@ const Hero = () => {
     return (
         <div className='pb-20 pt-36 h-[100vh]'>
             <div>
-                <Spotlight className='-top-40 -left-10 md:-left-32 md:-top-20' fill='white' animate={true}/>
-                <Spotlight className='top-10 left-full h-[80vh] w-[50vw]' fill='purple' animate={true}/>
-                <Spotlight className='top-28 left-80 h-[80vh] w-[50vw]' fill='blue' animate={true}/>
+                <Spotlight className='-top-40 -left-10 md:-left-32 md:-top-20' fill='white' animate={true} />
+                <Spotlight className='top-10 left-full h-[80vh] w-[50vw]' fill='purple' animate={true} />
+                <Spotlight className='top-28 left-80 h-[80vh] w-[50vw]' fill='blue' animate={true} />
             </div>
 
             <div

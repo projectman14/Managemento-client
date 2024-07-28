@@ -10,6 +10,7 @@ import { useGSAP } from '@gsap/react'
 import DropdownInput from '@/components/ui/DropDownInput'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import ReCAPTCHA from "react-google-recaptcha";
 
 const page = () => {
 
@@ -33,6 +34,7 @@ const page = () => {
   const [nameError, setNameError] = useState(false)
   const [typeError, setTypeError] = useState(false)
   const [endAnimation, setEndAnimation] = useState(false)
+  const [captchaVerification, setCaptchaVerification] = useState(false)
 
   useGSAP(() => {
     gsap.to('#tagline', {
@@ -106,6 +108,14 @@ const page = () => {
     })
   };
 
+  const onChange = (value: any) => {
+    if (value) {
+      setCaptchaVerification(true)
+    } else {
+      setCaptchaVerification(false)
+    }
+  }
+
   const handleOnChange = (e: any) => {
     const { name, value } = e.target
 
@@ -132,7 +142,7 @@ const page = () => {
       setTypeError(true)
     }
 
-    if (!nameError && !typeError && !emailError && !passError && !errorCheck) {
+    if (!nameError && !typeError && !emailError && !passError && !errorCheck && captchaVerification) {
       const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/register`
 
       const payLoad = {
@@ -228,6 +238,14 @@ const page = () => {
                     onChange={handleOnChange}
                     name='confirmpassword' data={data.confirmpassword} error={passError} />
                   {passError && <p className='text-red-600 text-xs italic text-center'>Password does not match with confirm password</p>}
+                </div>
+
+                <div className='flex flex-col items-center justify-center mt-6'>
+                  <ReCAPTCHA
+                    sitekey={`${process.env.NEXT_PUBLIC_SITE_KEY}`}
+                    onChange={onChange}
+                  />,
+                  {!captchaVerification && <p className='text-red-600 text-xs italic text-center'>Verify you are not robot</p>}
                 </div>
 
                 <button
