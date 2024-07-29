@@ -36,7 +36,7 @@ type Project = {
 };
 
 
-const page = ({ params }: any) => {
+const Page = ({ params }: any) => {
 
     const router = useRouter()
 
@@ -476,4 +476,4 @@ const page = ({ params }: any) => {
     )
 }
 
-export default page
+export default Page

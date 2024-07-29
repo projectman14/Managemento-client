@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast';
 
-const page = () => {
+const Page = () => {
 
     const router = useRouter()
 
@@ -206,5 +206,5 @@ const page = () => {
 }
 
 
-export default page
+export default Page
 
