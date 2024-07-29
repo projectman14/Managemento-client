@@ -131,52 +131,41 @@ const Page = () => {
     useEffect(() => {
         const fetchUSerDetail = async () => {
             try {
-                const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/login-verificaton`
+                const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/login-verificaton`;
 
-                const response = await axios({
-                    method: 'post',
-                    url: URL,
-                    withCredentials: true
-                })
+                const response = await axios.post(URL, {}, { withCredentials: true });
 
-                console.log(response)
+                console.log(response);
 
                 if (response?.data?.data?.logout) {
-                    router.push('/login')
+                    router.push('/login');
                 }
 
                 if (response?.data?.success) {
-                    setData((prevData) => {
-                        return {
-                            ...prevData,
-                            creatorId: response?.data?.data?._id
-                        }
-                    })
+                    setData((prevData) => ({
+                        ...prevData,
+                        creatorId: response?.data?.data?._id
+                    }));
 
-                    setAvatarName(response?.data?.data?.name)
+                    setAvatarName(response?.data?.data?.name);
 
                     if (response?.data?.data?.userType === 'Admin') {
-                        setIsAdmin(true)
+                        setIsAdmin(true);
                     }
                 }
 
-                console.log(response?.data?.data?._id)
-
+                console.log(response?.data?.data?._id);
 
             } catch (err) {
-                console.log(err)
+                console.log(err);
             }
-        }
+        };
 
         const fetchProjects = async () => {
             try {
                 const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/userProjects`
 
-                const response = await axios({
-                    method: 'get',
-                    url: URL,
-                    withCredentials: true
-                })
+                const response = await axios.get(URL, { withCredentials: true })
 
                 console.log(response)
 
@@ -452,7 +441,7 @@ const Page = () => {
             }
 
 
-        } catch (error:any) {
+        } catch (error: any) {
             console.log(error)
             toast.error(error?.response?.data?.message)
         }

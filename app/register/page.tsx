@@ -66,7 +66,7 @@ const page = () => {
 
   useEffect(() => {
 
-    const domain = process.env.NEXT_PUBLIC_DOMAIN_SPECIFIC || '';
+    const domain = `${process.env.NEXT_PUBLIC_DOMAIN_SPECIFIC}` || '';
 
     if (!data.email.endsWith(domain) && data.email !== '') {
       setEmailError(true)
