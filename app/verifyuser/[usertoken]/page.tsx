@@ -9,7 +9,7 @@ import { useGSAP } from '@gsap/react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
-const page = ({ params }: any) => {
+const Page = ({ params }: any) => {
 
     const [showBtn, setShowBtn] = useState(false)
     const [detectClick, setDetectClick] = useState(false)
@@ -153,4 +153,4 @@ const page = ({ params }: any) => {
     )
 }
 
-export default page
+export default Page

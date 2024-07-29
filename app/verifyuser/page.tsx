@@ -6,7 +6,7 @@ import { TextGenerateEffect } from '@/components/ui/textgenerateeffect'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 
-const page = () => {
+const Page = () => {
 
   useGSAP(() => {
     gsap.from('#tagline', {
@@ -60,4 +60,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
