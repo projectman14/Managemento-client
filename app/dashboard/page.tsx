@@ -466,13 +466,13 @@ const Page = () => {
                 </div>
 
                 <Button className={`justify-end mt-8 mr-10 cursor-pointer ${isAdmin ? 'flex' : 'hidden'}`} onClick={() => router.push('/admindashboard')}>
-                    <span className='font-poppins inline-flex h-[2.5rem] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Admin Dashboard</span>
+                    <span className='font-poppins inline-flex h-[2.5rem] max-md:w-[10rem] w-[12rem] max-md:text-xs max-md:ml-1 animate-shimmer items-center max-md:justify-start justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Admin Dashboard</span>
                 </Button>
 
                 <Drawer>
                     <DrawerTrigger>
-                        <Button className='flex justify-end mt-8'>
-                            <span className='font-poppins inline-flex h-[2.5rem] w-[10rem] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Add Project</span>
+                        <Button className={`flex justify-end mt-8`}>
+                            <span className='font-poppins inline-flex items-center h-[2.5rem] w-[10rem] max-sm:w-[8rem] max-md:text-xs animate-shimmer max-md:-ml-8 justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none hover:scale-110'>Add Project</span>
                         </Button>
                     </DrawerTrigger>
                     <DrawerContent>
@@ -564,7 +564,7 @@ const Page = () => {
                                 />
                             </div>
                         </div>
-                        <div className='mt-[15rem]'>
+                        <div className='mt-[13rem] md:mt-[15rem]'>
                             <p className='text-purple font-extrabold italic text-sm font-poppins' id='scroll-animation'>{projects.length == 0 ? 'No Project Found' : 'Scroll Up to See Projects'}</p>
                         </div>
                     </div>
@@ -614,7 +614,7 @@ const Page = () => {
                                     target="__blank"
                                     className="px-4 py-2 rounded-xl text-xs font-normal text-white"
                                 >
-                                    Try now →
+                                    Repo Link →
                                 </CardItem>
 
                                 <CardItem

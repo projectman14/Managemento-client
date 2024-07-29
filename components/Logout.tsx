@@ -47,7 +47,7 @@ const Logout = ({ setLogoutVisible } : any) => {
     }
 
     return (
-        <div className="bg-black flex h-[40vh] w-[22vw] fixed top-[25%] left-[40%] rounded-2xl flex-col z-50" id='updateBox'>
+        <div className="bg-black flex h-[40vh] lg:h-[40vh] w-[50vw] sm:w-[30vw] md:w-[25vw] fixed top-[25%] left-[25%] md:left-[40%] rounded-2xl flex-col z-50" id='updateBox'>
             <div id='steps' className='mt-5'>
                 <div className='flex flex-col items-center justify-center'>
                     <div className='flex mb-8'>

@@ -11,6 +11,7 @@ import DropdownInput from '@/components/ui/DropDownInput'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import ReCAPTCHA from "react-google-recaptcha";
+import toast, { Toaster } from 'react-hot-toast';
 
 const page = () => {
 
@@ -177,6 +178,7 @@ const page = () => {
         console.log(response?.data?.message);
 
         if (response?.data?.sucess) {
+          toast.success(response?.data?.message)
           setEndAnimation(true);
           setTimeout(() => {
             router.push('/verifyuser')
@@ -184,6 +186,7 @@ const page = () => {
         }
       } catch (err: any) {
         console.log(err?.response?.data?.message)
+        toast.error(err?.response?.data?.message)
       }
 
       setData({
@@ -216,7 +219,7 @@ const page = () => {
             />
           </div>
 
-          <div className="flex flex-col items-center relative my-20 z-10" id='tagline'>
+          <div className="flex flex-col items-center relative mt-4 lg:my-20 z-10" id='tagline'>
             <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
               <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-96 font-poppins" id='tagline-para'>
                 Project Tracker Managemento
@@ -224,7 +227,7 @@ const page = () => {
             </div>
 
             <div className='mt-5 flex flex-col items-center font-poppins' id='form-container'>
-              <form className="my-8" onSubmit={handleSubmit}>
+              <form className=" md:my-8" onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                   <div className=''>
                     <Label htmlFor="name">Name</Label>
@@ -261,7 +264,7 @@ const page = () => {
                   {passError && <p className='text-red-600 text-xs italic text-center'>Password does not match with confirm password</p>}
                 </div>
 
-                <div className='flex flex-col items-center justify-center mt-6'>
+                <div className='flex flex-col items-center justify-center mt-2 lg:mt-6'>
                   <ReCAPTCHA
                     sitekey={`${process.env.NEXT_PUBLIC_SITE_KEY}`}
                     onChange={onChange}
@@ -288,6 +291,7 @@ const page = () => {
 
         </div >
       </div>
+      <Toaster />
     </main>
 
   )

@@ -145,34 +145,34 @@ const Page = () => {
             </div>
             <div className='flex flex-col'>
                 <div className='flex justify-around'>
-                    <p className="font-poppins uppercase tracking-widest text-xs text-center pl-4 text-blue-100 w-32 italic font-semibold">
+                    <p className="font-poppins uppercase tracking-widest text-xs text-center pl-12 text-blue-100 w-32 italic font-semibold hidden md:flex">
                         Name
                     </p>
-                    <p className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold ml-12">
+                    <p className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold lg:ml-12">
                         Email
                     </p>
-                    <p className="font-poppins uppercase tracking-widest text-xs lg: ml-4 text-blue-100 w-32 italic font-semibold">
+                    <p className={`hidden lg:flex font-poppins uppercase tracking-widest text-xs lg: ml-4 text-blue-100 w-32 italic font-semibold`}>
                         UserType
                     </p>
-                    <p className="font-poppins uppercase tracking-widest text-xs pl-4 text-blue-100 w-32 italic font-semibold ">
+                    <p className="font-poppins uppercase tracking-widest text-xs md:pl-10 lg:pl-4 text-blue-100 w-32 italic font-semibold hidden md:flex">
                         Verified
                     </p>
-                    <p className="font-poppins uppercase tracking-widest text-xs  text-center text-blue-100 w-32 italic font-semibold">
+                    <p className="font-poppins uppercase tracking-widest text-xs  text-center text-blue-100 w-32 italic font-semibold md:pl-12 lg:pl-0">
                         Check Profile
                     </p>
                 </div>
                 {userData.map((data: any, index) => (
                     <div className='flex justify-around mt-8 z-50' key={index}>
-                        <p className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold">
+                        <p className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold hidden md:flex">
                             {data.name}
                         </p>
                         <p className="font-poppins lg:pl-5 tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold">
                             {data.email}
                         </p>
-                        <p className="font-poppins uppercase tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold">
+                        <p className="font-poppins uppercase tracking-widest text-xs text-center lg:pl-8 text-blue-100 w-32 italic font-semibold hidden md:flex">
                             {data.userType}
                         </p>
-                        <p className="font-poppins  tracking-widest text-xs text-center text-blue-100 w-32 italic font-semibold">
+                        <p className="font-poppins  tracking-widest text-xs text-center text-blue-100 w-32 lg:pl-12 italic font-semibold hidden md:flex">
                             {String(data.isVerified)}
                         </p>
                         <p className="font-poppins  tracking-widest text-xs text-center pl-4 text-black-100 w-32 italic cursor-pointer font-semibold ">

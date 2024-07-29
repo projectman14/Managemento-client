@@ -49,11 +49,10 @@ const Hero = () => {
                 console.log(response)
 
                 if (response?.data?.success) {
-                    if (response?.data?.data?.userType === 'Admin') {
-                        
+                    if(!response?.data?.data?.logout){
+                        router.push('/dashboard')
+                        console.log(response?.data?.data)
                     }
-
-                    router.push('/dashboard')
                 }
 
                 console.log(response?.data?.data?._id)
