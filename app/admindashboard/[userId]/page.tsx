@@ -24,6 +24,7 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import { TextGenerateEffect } from '@/components/ui/textgenerateeffect'
 import Logout from '@/components/Logout'
+import toast, { Toaster } from 'react-hot-toast';
 
 type Project = {
     projectName: string;
@@ -192,6 +193,7 @@ const Page = ({ params }: any) => {
 
             if (response?.data?.success) {
                 console.log(response?.data?.data)
+                toast.success(response?.data?.message)
                 setUpdateData({
                     projectName: '',
                     githubRepoLink: '',
@@ -231,8 +233,9 @@ const Page = ({ params }: any) => {
 
                 fetchProjects()
             }
-        } catch (err) {
+        } catch (err:any) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
         }
 
     }
@@ -249,6 +252,7 @@ const Page = ({ params }: any) => {
             })
 
             if (response?.data?.success) {
+                toast.success(response?.data?.message)
                 const fetchProjects = async () => {
                     try {
                         const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/getUserDataWithId`
@@ -279,8 +283,9 @@ const Page = ({ params }: any) => {
                 fetchProjects()
             }
 
-        } catch (error) {
+        } catch (error : any) {
             console.log(error)
+            toast.error(error?.response?.data?.message)
         }
     }
 
@@ -472,6 +477,7 @@ const Page = ({ params }: any) => {
             <div>
                 {logout && <Logout setLogoutVisible={() => setLogout(false)} />}
             </div>
+            <Toaster />
         </main>
     )
 }
