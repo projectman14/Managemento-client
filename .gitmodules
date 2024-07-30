@@ -1,0 +1,3 @@
+[submodule "Managemanto-api"]
+	path = Managemanto-api
+	url = https://github.com/projectman14/Managemanto-api.git
