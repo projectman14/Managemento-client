@@ -142,16 +142,18 @@ const Page = () => {
                 }
 
                 if (response?.data?.success) {
-                    setData((prevData) => ({
+                    const userData = response.data.data;
+                    
+                    setData(prevData => ({
                         ...prevData,
-                        creatorId: response?.data?.data?._id
+                        creatorId: userData?._id || prevData.creatorId
                     }));
-
-                    setAvatarName(response?.data?.data?.name);
-
-                    if (response?.data?.data?.userType === 'Admin') {
-                        setIsAdmin(true);
+                
+                    if (userData?.name) {
+                        setAvatarName(userData.name);
                     }
+                
+                    setIsAdmin(userData?.userType === 'Admin');
                 }
 
                 console.log(response?.data?.data?._id);

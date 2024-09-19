@@ -112,7 +112,7 @@ const Page = () => {
 
                         if (newResponse?.data?.success) {
                             console.log(newResponse?.data?.message)
-                            toast.success(response?.data?.message)
+                            toast.success(newResponse?.data?.message)
                             setData({
                                 email: '',
                                 password: '',
