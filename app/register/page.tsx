@@ -177,7 +177,7 @@ const Page = () => {
         const response = await axios.post(URL, payLoad);
         console.log(response?.data?.message);
 
-        if (response?.data?.sucess) {
+        if (response?.data?.success) {
           toast.success(response?.data?.message)
           setEndAnimation(true);
           setTimeout(() => {
